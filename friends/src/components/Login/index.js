@@ -1,12 +1,15 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { login } from '../../actions'
 
-const Login = () => {
+const Login = (props) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    // actionCreator here
+    await props.login({username, password})
+    await props.history.push('/')
   }
 
   return (
@@ -34,4 +37,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default connect(null, { login })(Login)

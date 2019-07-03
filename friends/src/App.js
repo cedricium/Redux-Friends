@@ -1,30 +1,24 @@
 import React from 'react'
-import { 
-  Route,
-  Redirect,
-} from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 import Login from './components/Login'
 import Friends from './components/Friends'
+import PrivateRoute from './components/PrivateRoute'
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isLoggedIn = JSON.parse(localStorage.getItem('auth_token'))
-  return (
-    <Route {...rest} render={props => (
-      !!isLoggedIn
-      ? <Component {...props} />
-      : <Redirect to="/login" />
-    )}/>
-  )
-}
-
-function App() {
+function App(props) {
   return (
     <div className="App">
+      {props.error && <p>{props.error}</p>}
       <Route path="/login" component={Login} />
-      <PrivateRoute path="/" component={Friends} />
+      <PrivateRoute exact path="/" component={Friends} isLoggedIn={!!props.token} />
     </div>
   )
 }
 
-export default App
+const mapStateToProps = state => ({
+  token: state.token,
+  error: state.error,
+})
+
+export default connect(mapStateToProps)(App)

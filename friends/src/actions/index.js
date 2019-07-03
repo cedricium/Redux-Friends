@@ -9,13 +9,15 @@ export const API_REQUEST_SUCCESS = 'API_REQUEST_SUCCESS'
 export const API_REQUEST_FAILURE = 'API_REQUEST_FAILURE'
 
 // action creators
-export const login = () => async dispatch => {
+export const login = authData => async dispatch => {
   dispatch({ type: LOGIN_START })
   try {
-    const { data } = await axios.post()
-    // dispatch({ type: LOGIN_SUCCESS, payload: /* TODO */ })
+    const { data } = await axios.post('http://localhost:5000/api/login', authData)
+    const token = data.payload
+    localStorage.setItem('auth_token', token)
+    dispatch({ type: LOGIN_SUCCESS, payload: token })
   } catch (error) {
-    dispatch({ type: LOGIN_FAILURE, error: error.message })
+    dispatch({ type: LOGIN_FAILURE, payload: error.response.data.error })
   }
 }
 
@@ -25,7 +27,7 @@ export const getFriends = () => async dispatch => {
     const { data } = await axios.get()
     // dispatch({ type: API_REQUEST_SUCCESS, payload: /* TODO */ })
   } catch (error) {
-    dispatch({ type: API_REQUEST_FAILURE, error: error.message })
+    dispatch({ type: API_REQUEST_FAILURE, payload: error.toString() })
   }
 }
 
@@ -35,7 +37,7 @@ export const addFriend = () => async dispatch => {
     const { data } = await axios.post()
     // dispatch({ type: API_REQUEST_SUCCESS, payload: /* TODO */ })
   } catch (error) {
-    dispatch({ type: API_REQUEST_FAILURE, error: error.message })
+    dispatch({ type: API_REQUEST_FAILURE, payload: error.toString() })
   }
 }
 
@@ -45,7 +47,7 @@ export const updateFriend = () => async dispatch => {
     const { data } = await axios.put()
     // dispatch({ type: API_REQUEST_SUCCESS, payload: /* TODO */ })
   } catch (error) {
-    dispatch({ type: API_REQUEST_FAILURE, error: error.message })
+    dispatch({ type: API_REQUEST_FAILURE, payload: error.toString() })
   }
 }
 
@@ -55,6 +57,6 @@ export const deleteFriend = () => async dispatch => {
     const { data } = await axios.delete()
     // dispatch({ type: API_REQUEST_SUCCESS, payload: /* TODO */ })
   } catch (error) {
-    dispatch({ type: API_REQUEST_FAILURE, error: error.message })
+    dispatch({ type: API_REQUEST_FAILURE, payload: error.toString() })
   }
 }
