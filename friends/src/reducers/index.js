@@ -21,7 +21,7 @@ const initialState = {
 }
 
 // export reducer function
-export const rootReducer = (state = initialState, action) => {
+const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_START:
       return {
@@ -61,3 +61,5 @@ export const rootReducer = (state = initialState, action) => {
       return state
   }
 }
+
+export default rootReducer
