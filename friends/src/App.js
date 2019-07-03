@@ -11,13 +11,12 @@ function App(props) {
     <div className="App">
       {props.error && <p>{props.error}</p>}
       <Route path="/login" component={Login} />
-      <PrivateRoute exact path="/" component={Friends} isLoggedIn={!!props.token} />
+      <PrivateRoute exact path="/" component={Friends} />
     </div>
   )
 }
 
 const mapStateToProps = state => ({
-  token: state.token,
   error: state.error,
 })
 
