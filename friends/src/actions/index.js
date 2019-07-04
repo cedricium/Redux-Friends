@@ -24,8 +24,11 @@ export const login = authData => async dispatch => {
 export const getFriends = () => async dispatch => {
   dispatch({ type: API_REQUEST_START })
   try {
-    const { data } = await axios.get()
-    // dispatch({ type: API_REQUEST_SUCCESS, payload: /* TODO */ })
+    const token = localStorage.getItem('auth_token')
+    const { data } = await axios.get('http://localhost:5000/api/friends', {
+      headers: { 'Authorization': token }
+    })
+    dispatch({ type: API_REQUEST_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: API_REQUEST_FAILURE, payload: error.toString() })
   }
