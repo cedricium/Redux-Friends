@@ -34,11 +34,14 @@ export const getFriends = () => async dispatch => {
   }
 }
 
-export const addFriend = () => async dispatch => {
+export const addFriend = friend => async dispatch => {
   dispatch({ type: API_REQUEST_START })
   try {
-    const { data } = await axios.post()
-    // dispatch({ type: API_REQUEST_SUCCESS, payload: /* TODO */ })
+    const token = localStorage.getItem('auth_token')
+    const { data } = await axios.post('http://localhost:5000/api/friends', friend, {
+      headers: { 'Authorization': token }
+    })
+    dispatch({ type: API_REQUEST_SUCCESS, payload: data })
   } catch (error) {
     dispatch({ type: API_REQUEST_FAILURE, payload: error.toString() })
   }
